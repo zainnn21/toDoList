@@ -6,18 +6,18 @@
     <title>TO DO LIST</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body>
+  <body class="font-mono p-0 m-0">
     <main
-      class="flex flex-col justify-center items-center min-h-screen bg-gray-300"
+      class="flex flex-col justify-center items-center min-h-screen bg-[url(../images/background.jpg)] bg-cover bg-center"
     >
-      <section class="w-full max-w-xl p-6 bg-white rounded-lg shadow-lg">
-        <h1 class="text-6xl font-bold text-center">TO DO LIST</h1>
+      <section class="w-full max-w-2xl p-6 bg-white rounded-3xl shadow-2xl/60">
+        <h1 class="text-6xl font-bold text-center">TO-DO</h1>
 
         <!-- PROFILE -->
         <section
-          class="w-full p-6 bg-white rounded-lg shadow-lg flex justify-between gap-6"
+          class="w-full p-6 bg-white rounded-lg shadow-xl/30 flex justify-between gap-6"
         >
-          <div class="flex items-center bg-white p-6 rounded-lg shadow-md">
+          <div class="flex items-center bg-white p-6 rounded-lg">
             <img
               src="../images/profile.jpg"
               alt="profile"
@@ -28,16 +28,14 @@
               <h2 class="text-gray-600">Software Engineer</h2>
             </div>
           </div>
-          <div
-            class="flex flex-col items-center bg-white p-6 rounded-lg shadow-md"
-          >
+          <div class="flex flex-col items-center bg-white p-6 rounded-lg">
             <h1 class="text-2xl font-bold">Today</h1>
             <div id="today" class="text-gray-600"></div>
           </div>
         </section>
 
         <!-- CREATE TASK-->
-        <section class="w-full p-6 bg-white rounded-lg shadow-lg mt-6">
+        <section class="w-full p-6 bg-white rounded-lg shadow-xl/30 mt-6">
           <h1 class="text-2xl font-bold text-center">Create New To-do</h1>
           <form id="taskForm" class="mt-4">
             <div class="flex flex-col gap-2 mt-4">
@@ -110,19 +108,20 @@
         </section>
 
         <!-- TASK SHOWN -->
-        <section class="w-full p-6 bg-white rounded-lg shadow-lg mt-6">
-          <h1 class="text-2xl font-bold text-center">To Do List</h1>
-          <div id="taskList" class="mt-4">
+        <section class="w-full p-6 bg-white rounded-lg shadow-xl/30 mt-6">
+          <h1 class="text-2xl font-bold text-center">To Do</h1>
+          <div id="taskList" class="mt-4 flex flex-col gap-4">
             <!-- Tasks will be dynamically added here -->
           </div>
         </section>
 
         <!-- TASK COMPLETED -->
-        <section class="w-full p-6 bg-white rounded-lg shadow-lg mt-6">
+        <section class="w-full p-6 bg-white rounded-lg shadow-xl/30 mt-6">
           <h1 class="text-2xl font-bold text-center">Task Completed</h1>
         </section>
       </section>
     </main>
   </body>
   <script src="../js/calendar.js"></script>
+  <script src="../js/formInput.js"></script>
 </html>

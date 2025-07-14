@@ -1,30 +1,11 @@
-const todoForm = document.getElementById("taskForm");
-const taskInput = document.getElementById("taskInput");
-const taskList = document.getElementById("taskList");
+document.addEventListener("DOMContentLoaded", () => {
+  // Element DOM
+  const taskInput = document.getElementById("taskInput");
+  const deadlineInput = document.getElementById("dueDateInput");
+  const addTaskButton = document.getElementById("addTaskButton");
+  const activeTasks = document.getElementById("activeTasks");
+  const completedTasks = document.getElementById("completedTasks");
+  const clearCompletedButton = document.getElementById("clearCompletedButton");
 
-todoForm.addEventListener("submit", function (event) {
-  event.preventDefault(); // Mencegah form dari pengiriman default
-
-  const selectedPriority = document.querySelector(
-    'input[name="priority"]:checked'
-  );
-  const taskText = taskInput.value.trim();
-
-  if (taskText === "") {
-    alert("Please enter a task.");
-    return;
-  }
-
-  const newTodoItem = document.createElement("li");
-  newTodoItem.innerHTML = `
-    <input type="checkbox">
-    <span>${taskText}</span>
-    <span class="priority-tag">${selectedPriority}</span>
-    <button class="delete-btn">Delete</button>
-  `;
-
-  newTodoItem.classList.add("priority-${selectedPriority}");
-  taskList.appendChild(newTodoItem);
-
-  taskInput.value = ""; // Kosongkan input setelah menambahkan tugas
+  // Function to create a task element
 });

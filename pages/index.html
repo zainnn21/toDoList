@@ -99,6 +99,7 @@
               </div>
             </section>
             <button
+              id="addTaskButton"
               type="submit"
               class="mt-4 w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-200"
             >
@@ -110,14 +111,22 @@
         <!-- TASK SHOWN -->
         <section class="w-full p-6 bg-white rounded-lg shadow-xl/30 mt-6">
           <h1 class="text-2xl font-bold text-center">To Do</h1>
-          <div id="taskList" class="mt-4 flex flex-col gap-4">
+          <ul id="activeTasks" class="mt-4 flex flex-col gap-4">
             <!-- Tasks will be dynamically added here -->
-          </div>
+          </ul>
         </section>
 
         <!-- TASK COMPLETED -->
         <section class="w-full p-6 bg-white rounded-lg shadow-xl/30 mt-6">
           <h1 class="text-2xl font-bold text-center">Task Completed</h1>
+          <ul id="completedTasks" class="mt-4 flex flex-col gap-4"></ul>
+          <button
+            type="button"
+            id="clearCompletedButton"
+            class="mt-4 w-full bg-red-500 text-white p-3 rounded-lg hover:bg-red-600 transition duration-200"
+          >
+            Delete Completed Tasks
+          </button>
         </section>
       </section>
     </main>

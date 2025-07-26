@@ -51,12 +51,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       //create new task
       const newTask = {
+        id: Date.now(),
         title: taskInput,
         priority: selectPriority,
-        today: formattedToday,
-        dueDate: formattedDueDate,
+        firstDate: new Date().toISOString().split("T")[0],
+        dueDate: event.target.dueDateInput.value,
         todayObj: todayObj,
         dueDateObj: dueDateObj,
+        completed: false,
       };
       console.log(newTask);
 
@@ -81,15 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function createTaskElement(task) {
     const taskDiv = document.createElement("div");
-    console.log(task.priority);
-
-    if (task.priority === "low") {
-      taskDiv.classList.add("bg-green-100");
-    } else if (task.priority === "medium") {
-      taskDiv.classList.add("bg-yellow-100");
-    } else if (task.priority === "high") {
-      taskDiv.classList.add("bg-red-100");
-    }
+    taskDiv.id = task.id;
 
     taskDiv.classList.add(
       "flex",
@@ -104,6 +98,16 @@ document.addEventListener("DOMContentLoaded", () => {
       "transition-all",
       "duration-300"
     );
+
+    if (task.completed) {
+      taskDiv.classList.add("bg-gray-200", "border-gray-300", "task-completed");
+    } else if (task.priority === "low") {
+      taskDiv.classList.add("bg-green-100");
+    } else if (task.priority === "medium") {
+      taskDiv.classList.add("bg-yellow-100");
+    } else if (task.priority === "high") {
+      taskDiv.classList.add("bg-red-100");
+    }
 
     const taskTitle = document.createElement("h1");
     taskTitle.classList.add(

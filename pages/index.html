@@ -109,15 +109,20 @@
         </section>
 
         <!-- TASK SHOWN -->
-        <section class="w-full p-6 bg-white rounded-lg shadow-xl/30 mt-6">
+        <section
+          id="showTasks"
+          class="w-full p-6 bg-white rounded-lg shadow-xl/30 mt-6 hidden"
+        >
           <h1 class="text-2xl font-bold text-center">To Do</h1>
-          <ul id="activeTasks" class="mt-4 flex flex-col gap-4">
-            <!-- Tasks will be dynamically added here -->
-          </ul>
+          <div id="newTaskList" class="mt-4 flex-row flex gap-4 flex-wrap">
+            <!-- New Task will be added here -->
+          </div>
         </section>
 
         <!-- TASK COMPLETED -->
-        <section class="w-full p-6 bg-white rounded-lg shadow-xl/30 mt-6">
+        <section
+          class="w-full p-6 bg-white rounded-lg shadow-xl/30 mt-6 hidden"
+        >
           <h1 class="text-2xl font-bold text-center">Task Completed</h1>
           <ul id="completedTasks" class="mt-4 flex flex-col gap-4"></ul>
           <button

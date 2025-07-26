@@ -1,11 +1,27 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Element DOM
-  const taskInput = document.getElementById("taskInput");
-  const deadlineInput = document.getElementById("dueDateInput");
-  const addTaskButton = document.getElementById("addTaskButton");
-  const activeTasks = document.getElementById("activeTasks");
-  const completedTasks = document.getElementById("completedTasks");
-  const clearCompletedButton = document.getElementById("clearCompletedButton");
+function main() {
+  setupEventListeners();
+  // handleSubmit();
+}
 
-  // Function to create a task element
-});
+function setupEventListeners() {
+  const formInput = document.getElementById("taskForm");
+  formInput.addEventListener("submit", (event) => {
+    event.preventDefault();
+    console.log(event.target.taskInput.value);
+    handleRadioPriority();
+    console.log(event.target.dueDateInput.value);
+  });
+}
+
+function handleRadioPriority() {
+  const selectedRadio = document.querySelector(
+    'input[name="priority"]:checked'
+  );
+  if (selectedRadio) {
+    console.log(selectedRadio.value);
+  } else {
+    alert("Please select a priority");
+  }
+}
+
+main();

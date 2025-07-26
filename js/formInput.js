@@ -2,10 +2,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const formInput = document.getElementById("taskForm");
   const showTasks = document.getElementById("showTasks");
   const newTaskList = document.getElementById("newTaskList");
+  const overdueTasks = document.getElementById("overdueTasksList");
+  const completedTasks = document.getElementById("completedTasks");
 
   function main() {
     setupEventListeners();
-    // handleSubmit();
   }
 
   function setupEventListeners() {
@@ -15,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const taskInput = event.target.taskInput.value;
       const dueDateInput = event.target.dueDateInput.value;
       const dueDateObj = new Date(dueDateInput);
-      const formattedDueDate = new Date(dueDateInput).toLocaleDateString(
+      const formattedDueDate = new Date(dueDateObj).toLocaleDateString(
         "id-ID",
         {
           weekday: "long",
@@ -37,10 +38,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (taskInput === "" || dueDateInput === "") {
         alert("Please enter a task and a due date");
         return;
-      } else if (dueDateObj < todayObj) {
-        alert("Please enter a valid due date");
-        return;
       }
+      //  else if (dueDateObj < todayObj) {
+      //   alert("Please enter a valid due date");
+      //   return;
+      // }
 
       //Show Task
       if (showTasks.classList.contains("hidden")) {
@@ -50,9 +52,11 @@ document.addEventListener("DOMContentLoaded", () => {
       //create new task
       const newTask = {
         title: taskInput,
+        priority: selectPriority,
         today: formattedToday,
         dueDate: formattedDueDate,
-        priority: selectPriority,
+        todayObj: todayObj,
+        dueDateObj: dueDateObj,
       };
       console.log(newTask);
 
@@ -77,20 +81,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function createTaskElement(task) {
     const taskDiv = document.createElement("div");
+    console.log(task.priority);
+
+    if (task.priority === "low") {
+      taskDiv.classList.add("bg-green-100");
+    } else if (task.priority === "medium") {
+      taskDiv.classList.add("bg-yellow-100");
+    } else if (task.priority === "high") {
+      taskDiv.classList.add("bg-red-100");
+    }
+
     taskDiv.classList.add(
       "flex",
       "flex-col",
-      "bg-gray-300",
       "p-4",
       "rounded-lg",
       "gap-2",
-      "w-1/2",
-      "justify-between"
+      "shadow-xl/30",
+      "shadow-product",
+      "transform",
+      "hover:scale-105",
+      "transition-all",
+      "duration-300"
     );
 
     const taskTitle = document.createElement("h1");
-    taskTitle.classList.add("text-xl", "font-bold", "mr-4", "text-center");
+    taskTitle.classList.add(
+      "text-xl",
+      "font-bold",
+      "mr-4",
+      "text-center",
+      "text-pretty"
+    );
+
     taskTitle.textContent = task.title;
+
+    const taskPriority = document.createElement("p");
+    taskPriority.classList.add("text-gray-600", "text-sm", "uppercase");
+    taskPriority.textContent = `Priority: ${task.priority}`;
 
     const taskToday = document.createElement("p");
     taskToday.classList.add("text-gray-600", "text-sm");
@@ -100,14 +128,10 @@ document.addEventListener("DOMContentLoaded", () => {
     taskDueDate.classList.add("text-gray-600", "text-sm");
     taskDueDate.textContent = `Due Date: ${task.dueDate}`;
 
-    const taskPriority = document.createElement("p");
-    taskPriority.classList.add("text-gray-600", "text-sm");
-    taskPriority.textContent = `Priority: ${task.priority}`;
-
     taskDiv.appendChild(taskTitle);
+    taskDiv.appendChild(taskPriority);
     taskDiv.appendChild(taskToday);
     taskDiv.appendChild(taskDueDate);
-    taskDiv.appendChild(taskPriority);
 
     return taskDiv;
   }

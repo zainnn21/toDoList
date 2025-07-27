@@ -1,107 +1,73 @@
+const showTask = document.querySelector("#showTasks");
+const newTaskList = document.querySelector("#newTaskList");
+const taskForm = document.querySelector("#taskForm");
+
 document.addEventListener("DOMContentLoaded", () => {
-  const formInput = document.getElementById("taskForm");
-  const showTasks = document.getElementById("showTasks");
-  const newTaskList = document.getElementById("newTaskList");
-  const overdueTasks = document.getElementById("overdueTasksList");
-  const completedTasks = document.getElementById("completedTasks");
+  taskForm.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-  function main() {
-    setupEventListeners();
-  }
+    const taskInput = document.querySelector("#taskInput");
+    const taskPriority = document.querySelector(
+      "[name=priority]:checked"
+    ).value;
+    const dueDate = document.querySelector("#dueDateInput");
+    const today = new Date().toISOString().split("T")[0];
 
-  function setupEventListeners() {
-    formInput.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      const taskInput = event.target.taskInput.value;
-      const dueDateInput = event.target.dueDateInput.value;
-      const dueDateObj = new Date(dueDateInput);
-      const formattedDueDate = new Date(dueDateObj).toLocaleDateString(
-        "id-ID",
-        {
-          weekday: "long",
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        }
-      );
-      const todayObj = new Date();
-      const formattedToday = today.toLocaleDateString("id-ID", {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      });
-      const selectPriority = getSelectedPriority();
-
-      //Validation
-      if (taskInput === "" || dueDateInput === "") {
-        alert("Please enter a task and a due date");
-        return;
-      }
-      //  else if (dueDateObj < todayObj) {
-      //   alert("Please enter a valid due date");
-      //   return;
-      // }
-
-      //Show Task
-      if (showTasks.classList.contains("hidden")) {
-        showTasks.classList.remove("hidden");
-      }
-
-      //create new task
-      const newTask = {
-        id: Date.now(),
-        title: taskInput,
-        priority: selectPriority,
-        firstDate: new Date().toISOString().split("T")[0],
-        dueDate: event.target.dueDateInput.value,
-        todayObj: todayObj,
-        dueDateObj: dueDateObj,
-        completed: false,
-      };
-      console.log(newTask);
-
-      //create task element
-      const taskElement = createTaskElement(newTask);
-      newTaskList.appendChild(taskElement);
-
-      formInput.reset();
-    });
-  }
-
-  function getSelectedPriority() {
-    const selectedRadio = document.querySelector(
-      'input[name="priority"]:checked'
+    console.log(
+      "ambil data",
+      taskInput.value,
+      taskPriority,
+      dueDate.value,
+      today
     );
-    if (selectedRadio) {
-      return selectedRadio.value;
-    } else {
-      alert("Please select a priority");
+
+    if (taskInput.value === "" || dueDate.value === "") {
+      alert("Please enter a task and due date.");
+      return;
     }
-  }
 
-  function createTaskElement(task) {
+    if (dueDate.value < today) {
+      alert("Due date cannot be in the past.");
+      return;
+    }
+
+    const task = {
+      id: Date.now(),
+      task: taskInput.value,
+      priority: taskPriority,
+      dueDate: dueDate.value,
+      today: today,
+      completed: false,
+    };
+
+    if (task != "") {
+      showTask.classList.remove("hidden");
+    }
+
+    //create element
+    createElementTask(task);
+
+    taskForm.reset();
+  });
+
+  const createElementTask = (task) => {
     const taskDiv = document.createElement("div");
-    taskDiv.id = task.id;
-
     taskDiv.classList.add(
-      "flex",
-      "flex-col",
-      "p-4",
+      "w-full",
+      "p-6",
       "rounded-lg",
-      "gap-2",
       "shadow-xl/30",
-      "shadow-product",
+      "mb-4",
       "transform",
+      "transition-transform",
+      "duration-300",
       "hover:scale-105",
-      "transition-all",
-      "duration-300"
+      "cursor-pointer"
     );
 
-    if (task.completed) {
-      taskDiv.classList.add("bg-gray-200", "border-gray-300", "task-completed");
-    } else if (task.priority === "low") {
+    console.log(task.priority);
+
+    if (task.priority === "low") {
       taskDiv.classList.add("bg-green-100");
     } else if (task.priority === "medium") {
       taskDiv.classList.add("bg-yellow-100");
@@ -109,36 +75,49 @@ document.addEventListener("DOMContentLoaded", () => {
       taskDiv.classList.add("bg-red-100");
     }
 
+    const completed = document.createElement("input");
+    completed.type = "checkbox";
+    completed.classList.add("mr-4");
+    completed.addEventListener("change", () => {
+      task.completed = completed.checked;
+      if (task.completed) {
+        taskTitle.classList.add("line-through");
+      } else {
+        taskTitle.classList.remove("line-through");
+      }
+    });
+
     const taskTitle = document.createElement("h1");
     taskTitle.classList.add(
-      "text-xl",
+      "text-2xl",
       "font-bold",
-      "mr-4",
       "text-center",
-      "text-pretty"
+      "mb-4",
+      "text-wrap"
     );
+    taskTitle.textContent = task.task;
 
-    taskTitle.textContent = task.title;
-
-    const taskPriority = document.createElement("p");
-    taskPriority.classList.add("text-gray-600", "text-sm", "uppercase");
+    const taskPriority = document.createElement("h2");
+    taskPriority.classList.add("text-gray-600", "font-bold", "uppercase");
     taskPriority.textContent = `Priority: ${task.priority}`;
 
-    const taskToday = document.createElement("p");
-    taskToday.classList.add("text-gray-600", "text-sm");
-    taskToday.textContent = `Submitted Task: ${task.today}`;
+    const today = document.createElement("h2");
+    today.classList.add("text-gray-600");
+    today.textContent = `Task Created: ${task.today}`;
 
-    const taskDueDate = document.createElement("p");
-    taskDueDate.classList.add("text-gray-600", "text-sm");
+    const taskDueDate = document.createElement("h2");
+    taskDueDate.classList.add("text-gray-600");
     taskDueDate.textContent = `Due Date: ${task.dueDate}`;
 
+    if (task.dueDate < task.today) {
+      taskPriority.textContent = `Priority: ${task.priority} - OVERDUE`;
+    }
+
+    taskDiv.appendChild(completed);
     taskDiv.appendChild(taskTitle);
     taskDiv.appendChild(taskPriority);
-    taskDiv.appendChild(taskToday);
+    taskDiv.appendChild(today);
     taskDiv.appendChild(taskDueDate);
-
-    return taskDiv;
-  }
-
-  main();
+    newTaskList.appendChild(taskDiv);
+  };
 });

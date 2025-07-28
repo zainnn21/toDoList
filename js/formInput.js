@@ -1,4 +1,5 @@
 const showTask = document.querySelector("#showTasks");
+const showCompleted = document.querySelector("#showCompleted");
 const newTaskList = document.querySelector("#newTaskList");
 const taskForm = document.querySelector("#taskForm");
 
@@ -26,10 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (dueDate.value < today) {
-      alert("Due date cannot be in the past.");
-      return;
-    }
+    // if (dueDate.value < today) {
+    //   alert("Due date cannot be in the past.");
+    //   return;
+    // }
 
     const task = {
       id: Date.now(),
@@ -46,6 +47,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //create element
     createElementTask(task);
+
+    if (completed === true) {
+      if (showCompleted.classList.contains("hidden")) {
+        showCompleted.classList.remove("hidden");
+      }
+      moveToCompleted(task);
+    }
 
     taskForm.reset();
   });
@@ -75,13 +83,25 @@ document.addEventListener("DOMContentLoaded", () => {
       taskDiv.classList.add("bg-red-100");
     }
 
+    const titleContainer = document.createElement("div");
+    titleContainer.classList.add(
+      "flex",
+      "items-center",
+      "mb-4",
+      "justify-between"
+    );
+
     const completed = document.createElement("input");
     completed.type = "checkbox";
-    completed.classList.add("mr-4");
+    completed.classList.add("w-6", "h-6");
     completed.addEventListener("change", () => {
       task.completed = completed.checked;
       if (task.completed) {
-        taskTitle.classList.add("line-through");
+        taskTitle.classList.add(
+          "line-through",
+          "decoration-red-600",
+          "decoration-4"
+        );
       } else {
         taskTitle.classList.remove("line-through");
       }
@@ -92,8 +112,8 @@ document.addEventListener("DOMContentLoaded", () => {
       "text-2xl",
       "font-bold",
       "text-center",
-      "mb-4",
-      "text-wrap"
+      "text-wrap",
+      "uppercase"
     );
     taskTitle.textContent = task.task;
 
@@ -110,14 +130,36 @@ document.addEventListener("DOMContentLoaded", () => {
     taskDueDate.textContent = `Due Date: ${task.dueDate}`;
 
     if (task.dueDate < task.today) {
-      taskPriority.textContent = `Priority: ${task.priority} - OVERDUE`;
+      taskPriority.textContent = `Priority: ${task.priority} - OVERDUE!!`;
+      taskDiv.classList.add("bg-red-300");
     }
 
-    taskDiv.appendChild(completed);
-    taskDiv.appendChild(taskTitle);
+    titleContainer.appendChild(taskTitle);
+    titleContainer.appendChild(completed);
+    taskDiv.appendChild(titleContainer);
     taskDiv.appendChild(taskPriority);
     taskDiv.appendChild(today);
     taskDiv.appendChild(taskDueDate);
     newTaskList.appendChild(taskDiv);
+  };
+
+  const moveToCompleted = (task) => {
+    const completedTasks = document.querySelector("#completedTasks");
+    const taskDiv = document.createElement("div");
+    taskDiv.classList.add(
+      "w-full",
+      "p-6",
+      "rounded-lg",
+      "shadow-xl/30",
+      "mb-4",
+      "transform",
+      "transition-transform",
+      "duration-300",
+      "hover:scale-105",
+      "cursor-pointer"
+    );
+    taskDiv.classList.add("bg-gray-300");
+    taskDiv.textContent = task.task;
+    completedTasks.appendChild(taskDiv);
   };
 });

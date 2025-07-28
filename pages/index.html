@@ -8,32 +8,32 @@
   </head>
   <body class="font-mono">
     <main
-      class="md:flex flex-col justify-center items-center min-h-screen bg-[url(../images/background.jpg)] bg-cover bg-center"
+      class="flex flex-col justify-center items-center min-h-screen bg-[url(../images/background.jpg)] bg-center bg-cover"
     >
       <section
-        class="md:w-full flex flex-col justify-center max-w-2xl p-6 bg-white rounded-3xl shadow-2xl/60"
+        class="w-full flex flex-col justify-center max-w-2xl p-6 bg-white rounded-3xl shadow-2xl/60"
       >
         <h1 class="text-6xl font-bold text-center">TO-DO</h1>
 
         <!-- PROFILE -->
         <section
-          class="w-full p-6 bg-white rounded-lg shadow-xl/30 flex justify-between gap-6"
+          class="w-full p-6 bg-white rounded-lg shadow-xl/30 flex flex-col mt-6 md:flex-row gap-4 md:justify-between"
         >
-          <div class="flex items-center bg-white p-6 rounded-lg">
+          <div class="flex items-center justify-center bg-white p-6 rounded-lg">
             <img
               src="../images/profile.jpg"
               alt="profile"
               class="w-16 h-16 rounded-full"
             />
             <div class="ml-4">
-              <h1 class="text-2xl font-bold">ZAIN</h1>
+              <h1 class="md:text-2xl font-bold">ZAIN</h1>
               <h2 class="text-gray-600">Software Engineer</h2>
             </div>
           </div>
           <div class="flex flex-col bg-white p-6 rounded-lg">
             <h1 class="text-2xl font-bold text-center">Today</h1>
             <div id="today" class="text-gray-600 text-center font-bold"></div>
-            <div id="time" class="text-gray-600 text-right"></div>
+            <div id="time" class="text-gray-600 text-center"></div>
           </div>
         </section>
 
@@ -49,10 +49,12 @@
                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 cursor-pointer focus:ring-blue-500"
               />
             </div>
-            <section class="flex gap-4 mt-4">
+            <section class="flex flex-col md:flex-row gap-4 mt-4">
               <div class="flex flex-col gap-2">
-                <label for="priorityInput">PRIORITY</label>
-                <div class="flex gap-2">
+                <label for="priorityInput" class="text-center md:text-left"
+                  >PRIORITY</label
+                >
+                <div class="flex gap-2 justify-center md:justify-start">
                   <div
                     class="flex items-center bg-gray-300 text-gray-600 p-2 rounded-lg h-12"
                   >
@@ -117,7 +119,7 @@
           class="w-full p-6 bg-white rounded-lg shadow-xl/30 mt-6 hidden"
         >
           <h1 class="text-2xl font-bold text-center">To Do</h1>
-          <div id="newTaskList" class="mt-4 grid grid-cols-2 gap-4">
+          <div id="newTaskList" class="mt-4 md:grid md:grid-cols-2 gap-4">
             <!-- New Task will be added here -->
           </div>
         </section>
@@ -128,7 +130,10 @@
           id="showCompletedTasks"
         >
           <h1 class="text-2xl font-bold text-center">Task Completed</h1>
-          <div id="completedTasksList" class="mt-4 gap-4 grid grid-cols-2">
+          <div
+            id="completedTasksList"
+            class="mt-4 gap-4 md:grid md:grid-cols-2"
+          >
             <!-- Completed Task will be added here -->
           </div>
           <button

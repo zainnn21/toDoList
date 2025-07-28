@@ -29,10 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // if (dueDate.value < today) {
-    //   alert("Due date cannot be in the past.");
-    //   return;
-    // }
+    if (dueDate.value < today) {
+      alert("Due date cannot be in the past.");
+      return;
+    }
 
     const task = {
       id: Date.now(),

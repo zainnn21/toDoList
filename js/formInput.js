@@ -1,7 +1,9 @@
 const showTask = document.querySelector("#showTasks");
-const showCompleted = document.querySelector("#showCompleted");
+const showCompleted = document.querySelector("#showCompletedTasks");
+const completedTaskList = document.querySelector("#completedTasksList");
 const newTaskList = document.querySelector("#newTaskList");
 const taskForm = document.querySelector("#taskForm");
+const clearCompletedButton = document.querySelector("#clearCompletedButton");
 
 document.addEventListener("DOMContentLoaded", () => {
   taskForm.addEventListener("submit", (e) => {
@@ -46,19 +48,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     //create element
-    createElementTask(task);
-
-    if (completed === true) {
-      if (showCompleted.classList.contains("hidden")) {
-        showCompleted.classList.remove("hidden");
-      }
-      moveToCompleted(task);
-    }
+    createTask(task);
 
     taskForm.reset();
   });
 
-  const createElementTask = (task) => {
+  const createTask = (task) => {
     const taskDiv = document.createElement("div");
     taskDiv.classList.add(
       "w-full",
@@ -94,18 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const completed = document.createElement("input");
     completed.type = "checkbox";
     completed.classList.add("w-6", "h-6");
-    completed.addEventListener("change", () => {
-      task.completed = completed.checked;
-      if (task.completed) {
-        taskTitle.classList.add(
-          "line-through",
-          "decoration-red-600",
-          "decoration-4"
-        );
-      } else {
-        taskTitle.classList.remove("line-through");
-      }
-    });
 
     const taskTitle = document.createElement("h1");
     taskTitle.classList.add(
@@ -141,12 +124,21 @@ document.addEventListener("DOMContentLoaded", () => {
     taskDiv.appendChild(today);
     taskDiv.appendChild(taskDueDate);
     newTaskList.appendChild(taskDiv);
+
+    completed.addEventListener("change", () => {
+      task.completed = completed.checked;
+      if (task.completed) {
+        console.log("task completed");
+        showCompleted.classList.remove("hidden");
+        createElementCompleted(task);
+        taskDiv.remove();
+      }
+    });
   };
 
-  const moveToCompleted = (task) => {
-    const completedTasks = document.querySelector("#completedTasks");
-    const taskDiv = document.createElement("div");
-    taskDiv.classList.add(
+  const createElementCompleted = (task) => {
+    const completedDiv = document.createElement("div");
+    completedDiv.classList.add(
       "w-full",
       "p-6",
       "rounded-lg",
@@ -158,8 +150,75 @@ document.addEventListener("DOMContentLoaded", () => {
       "hover:scale-105",
       "cursor-pointer"
     );
-    taskDiv.classList.add("bg-gray-300");
-    taskDiv.textContent = task.task;
-    completedTasks.appendChild(taskDiv);
+
+    console.log(task.priority);
+
+    if (task.priority === "low") {
+      completedDiv.classList.add("bg-green-100");
+    } else if (task.priority === "medium") {
+      completedDiv.classList.add("bg-yellow-100");
+    } else if (task.priority === "high") {
+      completedDiv.classList.add("bg-red-100");
+    }
+
+    const titleContainer = document.createElement("div");
+    titleContainer.classList.add(
+      "flex",
+      "items-center",
+      "mb-4",
+      "justify-between"
+    );
+
+    const completed = document.createElement("input");
+    completed.type = "checkbox";
+    completed.classList.add("w-6", "h-6");
+    completed.checked = true;
+
+    const taskTitle = document.createElement("h1");
+    taskTitle.classList.add(
+      "text-2xl",
+      "font-bold",
+      "text-center",
+      "text-wrap",
+      "uppercase"
+    );
+    taskTitle.textContent = task.task;
+
+    const taskPriority = document.createElement("h2");
+    taskPriority.classList.add("text-gray-600", "font-bold", "uppercase");
+    taskPriority.textContent = `Priority: ${task.priority}`;
+
+    const today = document.createElement("h2");
+    today.classList.add("text-gray-600");
+    today.textContent = `Task Created: ${task.today}`;
+
+    const taskDueDate = document.createElement("h2");
+    taskDueDate.classList.add("text-gray-600");
+    taskDueDate.textContent = `Due Date: ${task.dueDate}`;
+
+    if (task.dueDate < task.today) {
+      taskPriority.textContent = `Priority: ${task.priority} - OVERDUE!!`;
+      completedDiv.classList.add("bg-red-300");
+    }
+
+    titleContainer.appendChild(taskTitle);
+    titleContainer.appendChild(completed);
+    completedDiv.appendChild(titleContainer);
+    completedDiv.appendChild(taskPriority);
+    completedDiv.appendChild(today);
+    completedDiv.appendChild(taskDueDate);
+    completedTaskList.appendChild(completedDiv);
+
+    completed.addEventListener("change", () => {
+      if (completed.checked === false) {
+        createTask(task);
+        completedDiv.remove();
+      }
+    });
+
+    clearCompletedButton.addEventListener("click", () => {
+      completedTaskList.innerHTML = "";
+      showCompleted.classList.add("hidden");
+    });
   };
 });

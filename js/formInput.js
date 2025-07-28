@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const completed = document.createElement("input");
     completed.type = "checkbox";
-    completed.classList.add("w-6", "h-6");
+    completed.classList.add("w-6", "h-6", "cursor-pointer");
 
     const taskTitle = document.createElement("h1");
     taskTitle.classList.add(
@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const completed = document.createElement("input");
     completed.type = "checkbox";
-    completed.classList.add("w-6", "h-6");
+    completed.classList.add("w-6", "h-6", "cursor-pointer");
     completed.checked = true;
 
     const taskTitle = document.createElement("h1");
@@ -196,11 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
     taskDueDate.classList.add("text-gray-600");
     taskDueDate.textContent = `Due Date: ${task.dueDate}`;
 
-    if (task.dueDate < task.today) {
-      taskPriority.textContent = `Priority: ${task.priority} - OVERDUE!!`;
-      completedDiv.classList.add("bg-red-300");
-    }
-
     titleContainer.appendChild(taskTitle);
     titleContainer.appendChild(completed);
     completedDiv.appendChild(titleContainer);
@@ -219,6 +214,9 @@ document.addEventListener("DOMContentLoaded", () => {
     clearCompletedButton.addEventListener("click", () => {
       completedTaskList.innerHTML = "";
       showCompleted.classList.add("hidden");
+      if (newTaskList.children.length === 0) {
+        showTask.classList.add("hidden");
+      }
     });
   };
 });
